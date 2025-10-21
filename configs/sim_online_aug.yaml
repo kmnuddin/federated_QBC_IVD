@@ -1,0 +1,54 @@
+seed: 42
+rounds: 20
+seed_k: 200
+
+rf:
+  n_estimators: 300
+  class_weight: balanced_subsample
+  max_depth: null
+  max_features: 'sqrt'
+  n_jobs: -1
+
+federation:
+  share_trees_per_client: 100
+  prototypes_per_class_per_client: 5
+  aggregate_every: 1
+  tree_share_policy: accuracy        # accuracy | entropy_low | entropy_high
+  val_frac_for_tree_scoring: 0.2
+
+al:
+  batch_B: 100
+  stratified: true
+  target: uniform
+  per_class_min: 5
+
+data:
+  rsna_csv: data/path_embed_rsna.csv
+  mendeley_csv: data/path_embed_mendeley.csv
+  label_col: ivd_level
+  id_col: id
+  image_col: axial_path
+  emb_col: null
+
+mri_core:
+  device: cuda
+  batch_size: 2
+  dtype: fp16
+  image_size: 1024
+  checkpoint: src/mri_foundation/checkpoint/mri_foundation.pth
+
+image_aug:
+  enabled: true
+  n_aug_per_sample: 3
+  backend: monai
+  policy: monai_affine_intensity_v1
+  rot_deg: 7
+  scale_min: 0.95
+  scale_max: 1.05
+  translate_px: 5
+  noise_std: 0.02
+  bias_coeff: 0.30
+  contrast_gamma_log: 0.10
+
+logging:
+  out_dir: runs/sim_online_aug/

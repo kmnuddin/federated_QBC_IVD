@@ -1,0 +1,58 @@
+seed: 42
+rounds: 20
+seed_k: 200
+
+rf:
+  n_estimators: 300
+  class_weight: balanced_subsample
+  max_depth: null
+  max_features: 'sqrt'
+  n_jobs: -1
+
+knn:
+  n_neighbors: 11
+  weights: distance
+  confidence_tau: 0.80
+
+federation:
+  share_trees_per_client: 100
+  prototypes_per_class_per_client: 5
+  aggregate_every: 1
+  tree_share_policy: entropy_low           # accuracy | entropy_low | entropy_high | random
+  val_frac_for_tree_scoring: 0.2
+
+al:
+  batch_B: 150
+  stratified: true
+  target: uniform
+  per_class_min: 1
+
+augment:
+  enabled: false
+  knn_smote:
+    enabled: true
+    k: 5
+    max_factor: 1.0
+  proto_jitter:
+    enabled: true
+    std_frac: 0.03
+    max_per_class: 200
+  mixup:
+    enabled: false
+    alpha: 0.4
+
+phase_schedule:
+  metric: f1_macro
+  threshold: 0.62
+  patience_rounds: 2
+  federated_mode: federated_disagreement
+
+data:
+  rsna_csv: data/path_embed_rsna.csv
+  mendeley_csv: data/path_embed_mendeley.csv
+  label_col: ivd_level
+  id_col: id
+  emb_col: embedding_path
+
+logging:
+  out_dir: runs/sim_2clients/

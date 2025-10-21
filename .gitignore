@@ -1,0 +1,12 @@
+*.xlsx
+*.ima
+*.dcm
+data
+.ipynb_checkpoints
+*.pth
+*.npy
+__pycache__
+*.png
+*.jpeg
+*.jpg
+
